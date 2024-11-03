@@ -4,7 +4,7 @@ const generateCode = require('../utils/generateCode')
 
 async function createShortUrl(req, res) {
     const url = req.body.url;
-    const clientUrl = "chakka"
+    const clientUrl = "smol"
 
     if(!validate(url)) {
         return res.status(400).json({message: "Invalid URL"});

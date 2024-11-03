@@ -1,12 +1,14 @@
 const Url = require('../model/url');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const secret = "lodamera";
 
 const generateCode = async (url) => {
     const payload = { url };
     const token = jwt.sign(payload, secret, { expiresIn: '1h' });
 
-    const shortUrlId = token.slice(0, 6);
+    // Generate a random 6-character alphanumeric string
+    const shortUrlId = crypto.randomBytes(3).toString('hex'); // 3 bytes = 6 hex characters
 
     const newUrl = new Url({
         shortUrlId: shortUrlId,
@@ -19,8 +21,8 @@ const generateCode = async (url) => {
         await newUrl.save();
         return shortUrlId; 
     } catch (error) {
-        console.log("Error in saving URL:", error.message); // Enhanced error logging
-        throw error; // Re-throw error to handle it elsewhere
+        console.log("Error in saving URL:", error.message);
+        throw error;
     }
 }
 
